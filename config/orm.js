@@ -1,8 +1,8 @@
 const connection = require("./connect");
 const orm = {
-    selectAll(){
+    selectAll(table){
         return new Promise(function(resolve, reject){
-            connection.query("SELECT * FROM burgers", function(err, results){
+            connection.query(`SELECT * FROM ${table}`, function(err, results){
                 if(err){
                     reject(err)
                 }
@@ -10,9 +10,16 @@ const orm = {
             })
         })
     },
-    insertOne(name){
+    insertOne(table,insertObject){
         return new Promise(function(resolve, reject){
-            connection.query(`INSERT INTO burgers(burger_name) VALUES("${name}")`, function(err, results){
+            let columns = '', values='', i = 0;
+            Object.keys(insertObject).forEach(column => {
+                columns += (i > 0 ? ', ' : '') + column;
+                values += (i > 0 ? ', ' : '') + `"${insertObject[column]}"`;
+                i++;
+            }) 
+
+            connection.query(`INSERT INTO ${table}(${columns}) VALUES(${values})`, function(err, results){
                 if(err){
                     reject(err)
                 }
@@ -20,9 +27,14 @@ const orm = {
             })
         })
     },
-    updateOne(id){
+    updateOne(table, updateObject, id){
         return new Promise(function(resolve, reject){
-            connection.query(`UPDATE burgers SET devoured = true WHERE id = ${id}`, function(err, results){
+            let updateString = '', i = 0;
+            Object.keys(updateObject).forEach(column => {
+                updateString += (i>0 ? ', ': '') + `${column} = "${updateObject[column]}"`;
+                i++;
+            })
+            connection.query(`UPDATE ${table} SET ${updateString} WHERE id = ${id}`, function(err, results){
                 if(err){
                     reject(err)
                 }
