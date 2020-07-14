@@ -5,4 +5,4 @@ CREATE TABLE IF NOT EXISTS burgers (
     id INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
     burger_name VARCHAR(120),
     devoured BOOL DEFAULT FALSE
-)
+);
