@@ -43,6 +43,9 @@
 <script>
     document.getElementById('addBurger').addEventListener('submit', ev => {
         const newBurgerName = document.getElementById('new-burger').value;
+        if(newBurgerName.length<2){
+            alert('Your burger needs a name')
+        }
         axios.post('/api/burgers',{
             burger_name: newBurgerName
         }).then(_=>window.location.reload())

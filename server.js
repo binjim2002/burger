@@ -23,6 +23,10 @@ const exphbs = require('express-handlebars')
 const PORT = process.env.PORT || 3000
 const app = express();
 
+// make assets available
+
+app.use(express.static("public"));
+
 // for API-calls
 app.use(express.urlencoded({extended:true}));
 app.use(express.json());
